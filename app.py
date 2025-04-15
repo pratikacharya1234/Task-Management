@@ -2,7 +2,7 @@ from flask import Flask, render_template, jsonify, request
 
 app = Flask(__name__)
 
-# In-memory task storage (replace with file/db later)
+# In-memory task storage 
 tasks = []
 
 @app.route('/')
