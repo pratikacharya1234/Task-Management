@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Task Manager</title>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#home"><h1>Task Manager</h1></a>
+    </nav>
+
+    <section id="home">
+        <div class="containeer">
+            <form id="taskForm">
+                <input type="text" id="taskName" placeholder="Enter your task">
+                <input type="date" id="taskDate">
+                <button type="submit">Submit</button>
+            </form>
+            <ul id="taskList"></ul>
+        </div>
+    </section>
+    <scrip src="{{ url_for('static', filename='script.js') }}"></script>
+    </body>
+</html>
