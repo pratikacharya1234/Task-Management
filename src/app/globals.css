@@ -1,0 +1,386 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* FORGE Design System - Industrial Workshop Aesthetic */
+
+@layer base {
+  :root {
+    --background: 28 19 14; /* #2C2420 Warm Charcoal */
+    --foreground: 245 241 232; /* #F5F1E8 Cream */
+
+    --card: 74 66 56; /* #4A4238 Taupe Gray */
+    --card-foreground: 245 241 232;
+
+    --popover: 44 36 32;
+    --popover-foreground: 245 241 232;
+
+    --primary: 139 21 56; /* #8B1538 Deep Burgundy */
+    --primary-foreground: 245 241 232;
+
+    --secondary: 184 115 51; /* #B87333 Warm Copper */
+    --secondary-foreground: 44 36 32;
+
+    --muted: 74 66 56;
+    --muted-foreground: 212 197 176;
+
+    --accent: 233 116 81; /* #E97451 Burnt Sienna */
+    --accent-foreground: 245 241 232;
+
+    --destructive: 192 64 0; /* #C04000 Terracotta */
+    --destructive-foreground: 245 241 232;
+
+    --border: 74 66 56;
+    --input: 74 66 56;
+    --ring: 139 21 56;
+
+    --radius: 0.5rem;
+  }
+}
+
+/* Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap');
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+/* Industrial UI Components */
+@layer components {
+  /* Heavy Shadow System - Layered Depth */
+  .shadow-forge {
+    box-shadow:
+      0 8px 32px rgba(139, 21, 56, 0.4),
+      0 2px 8px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .shadow-forge-hover {
+    box-shadow:
+      0 12px 48px rgba(184, 115, 51, 0.5),
+      0 4px 16px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .shadow-ember {
+    box-shadow:
+      0 0 20px rgba(233, 116, 81, 0.6),
+      0 0 40px rgba(233, 116, 81, 0.3),
+      0 4px 12px rgba(0, 0, 0, 0.8);
+  }
+
+  .shadow-metal {
+    box-shadow:
+      inset 0 2px 4px rgba(0, 0, 0, 0.6),
+      inset 0 -1px 2px rgba(255, 255, 255, 0.05),
+      0 1px 2px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Metal Texture Gradient */
+  .metal-gradient {
+    background: linear-gradient(
+      135deg,
+      #4A4238 0%,
+      #5F5850 25%,
+      #4A4238 50%,
+      #36312A 75%,
+      #4A4238 100%
+    );
+    background-size: 200% 200%;
+  }
+
+  /* Copper Gradient */
+  .copper-gradient {
+    background: linear-gradient(
+      135deg,
+      #B87333 0%,
+      #D69767 25%,
+      #B87333 50%,
+      #995F2B 75%,
+      #B87333 100%
+    );
+    background-size: 200% 200%;
+  }
+
+  /* Forge Glow Effect */
+  .forge-glow {
+    position: relative;
+  }
+
+  .forge-glow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, #8B1538, #B87333, #E97451);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: -1;
+    filter: blur(8px);
+  }
+
+  .forge-glow:hover::before {
+    opacity: 0.7;
+    animation: forge-glow 3s ease-in-out infinite;
+  }
+
+  /* Tactile Button - Heavy, Physical */
+  .btn-forge {
+    @apply px-6 py-3 font-heading font-semibold;
+    @apply bg-primary text-text-primary;
+    @apply shadow-forge transition-all duration-300;
+    @apply hover:shadow-forge-hover hover:-translate-y-1;
+    @apply active:translate-y-0 active:shadow-metal;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-forge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    transition: left 0.5s;
+  }
+
+  .btn-forge:hover::before {
+    left: 100%;
+  }
+
+  /* Metal Panel */
+  .panel-metal {
+    @apply bg-surface rounded-lg p-6;
+    @apply shadow-metal border border-surface-600;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        rgba(0,0,0,0.05) 0px,
+        rgba(0,0,0,0.05) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+  }
+
+  /* Ember Particle */
+  .ember {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, #E97451 0%, #B87333 50%, transparent 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: ember-float 4s ease-out infinite;
+    opacity: 0.8;
+  }
+
+  /* Spark Effect */
+  .spark {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #FFBF00;
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 8px #FFBF00, 0 0 16px #E97451;
+  }
+
+  /* Industrial Input */
+  .input-forge {
+    @apply w-full px-4 py-3 bg-surface-700 border-2 border-surface-500;
+    @apply text-text-primary font-sans rounded-md;
+    @apply focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30;
+    @apply transition-all duration-300;
+    @apply shadow-metal;
+  }
+
+  .input-forge::placeholder {
+    @apply text-text-secondary;
+  }
+
+  /* Blueprint Grid Background */
+  .blueprint-grid {
+    background-color: #2C2420;
+    background-image:
+      linear-gradient(rgba(184, 115, 51, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(184, 115, 51, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    position: relative;
+  }
+
+  .blueprint-grid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(44, 36, 32, 0.8) 100%);
+    pointer-events: none;
+  }
+
+  /* Anvil Card */
+  .card-anvil {
+    @apply bg-surface rounded-lg overflow-hidden;
+    @apply shadow-forge transition-all duration-500;
+    @apply hover:shadow-forge-hover hover:scale-[1.02];
+    @apply border border-surface-600;
+  }
+
+  /* Typography Scales */
+  .text-display {
+    @apply font-display text-5xl md:text-7xl font-bold;
+    @apply text-transparent bg-clip-text;
+    background-image: linear-gradient(135deg, #E97451 0%, #B87333 50%, #8B1538 100%);
+  }
+
+  .text-hero {
+    @apply font-heading text-4xl md:text-6xl font-extrabold text-text-primary;
+  }
+
+  /* Loading Hammer Animation */
+  @keyframes hammer-strike {
+    0%, 100% { transform: rotate(-20deg) translateY(0); }
+    25% { transform: rotate(-20deg) translateY(-10px); }
+    50% { transform: rotate(-5deg) translateY(0); }
+  }
+
+  .loading-hammer {
+    animation: hammer-strike 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  /* Status Indicators - Industrial */
+  .status-success {
+    @apply bg-success text-text-primary px-3 py-1 rounded-full text-sm font-semibold;
+    @apply shadow-[0_0_12px_rgba(45,80,22,0.6)];
+  }
+
+  .status-warning {
+    @apply bg-warning text-background px-3 py-1 rounded-full text-sm font-semibold;
+    @apply shadow-[0_0_12px_rgba(255,191,0,0.6)];
+  }
+
+  .status-error {
+    @apply bg-error text-text-primary px-3 py-1 rounded-full text-sm font-semibold;
+    @apply shadow-[0_0_12px_rgba(192,64,0,0.6)];
+  }
+
+  /* Forge Progress Bar */
+  .progress-forge {
+    @apply w-full h-3 bg-surface-700 rounded-full overflow-hidden shadow-metal;
+    position: relative;
+  }
+
+  .progress-forge-fill {
+    @apply h-full bg-gradient-to-r from-primary via-secondary to-accent;
+    @apply shadow-ember;
+    position: relative;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .progress-forge-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* Brutalist Divider */
+  .divider-forge {
+    @apply h-1 bg-surface-600 my-8 relative;
+  }
+
+  .divider-forge::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 30%;
+    background: linear-gradient(90deg, #8B1538, #B87333);
+    box-shadow: 0 0 20px rgba(184, 115, 51, 0.6);
+  }
+}
+
+@layer utilities {
+  /* Slow, Powerful Transitions */
+  .transition-forge {
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .transition-forge-slow {
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Text Shadows for Industrial Feel */
+  .text-shadow-forge {
+    text-shadow:
+      2px 2px 4px rgba(0, 0, 0, 0.8),
+      0 0 8px rgba(139, 21, 56, 0.4);
+  }
+
+  .text-shadow-ember {
+    text-shadow:
+      0 0 20px rgba(233, 116, 81, 0.8),
+      0 0 40px rgba(233, 116, 81, 0.4),
+      2px 2px 4px rgba(0, 0, 0, 0.9);
+  }
+}
+
+/* Scrollbar Styling - Industrial */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2C2420;
+  border-left: 1px solid #4A4238;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #4A4238 0%, #36312A 100%);
+  border-radius: 6px;
+  border: 2px solid #2C2420;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #5F5850 0%, #4A4238 100%);
+  box-shadow:
+    inset 0 0 6px rgba(0, 0, 0, 0.5),
+    0 0 12px rgba(184, 115, 51, 0.4);
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(139, 21, 56, 0.6);
+  color: #F5F1E8;
+}
+
+::-moz-selection {
+  background-color: rgba(139, 21, 56, 0.6);
+  color: #F5F1E8;
+}
