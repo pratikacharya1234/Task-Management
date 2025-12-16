@@ -1,0 +1,430 @@
+// FORGE Database Schema
+// Comprehensive schema for all 20 core systems
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ═══════════════════════════════════════════════════════════
+// USER & AUTHENTICATION
+// ═══════════════════════════════════════════════════════════
+
+model User {
+  id            String    @id @default(cuid())
+  clerkId       String    @unique
+  email         String    @unique
+  name          String?
+  avatarUrl     String?
+
+  // Subscription
+  subscriptionTier String  @default("apprentice") // apprentice, builder, master, enterprise
+  subscriptionStatus String @default("active")
+
+  // Usage tracking
+  aiInteractionsUsed Int   @default(0)
+  aiInteractionsLimit Int  @default(100)
+  resetDate DateTime      @default(now())
+
+  // Relationships
+  projects      Project[]
+  teamMemberships TeamMember[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([clerkId])
+  @@index([email])
+}
+
+// ═══════════════════════════════════════════════════════════
+// PROJECT MEMORY SYSTEM (Core System #1)
+// ═══════════════════════════════════════════════════════════
+
+model Project {
+  id            String    @id @default(cuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Basic Info
+  name          String
+  description   String?
+  slug          String    @unique
+
+  // Project Blueprint (Persistent Context)
+  appType       String?   // e-commerce, saas, marketplace, healthcare, etc.
+  targetUsers   Json?     // Array of user personas
+  techStack     Json?     // Decisions with reasoning
+  architecture  String?   // microservices, monolith, serverless
+  businessRules Json?     // Pricing logic, workflows, permissions
+
+  // Compliance & Security
+  complianceRequirements Json? // HIPAA, GDPR, SOC2, etc.
+  securityRequirements   Json? // Auth levels, encryption, audit
+
+  // Non-functional Requirements
+  performanceTargets Json? // Performance budgets, uptime SLA, scale targets
+
+  // Design System
+  designSystem  Json?     // Brand colors, typography, spacing rules
+
+  // API Contracts
+  apiContracts  Json?     // Versioned API contracts
+
+  // Production Mode
+  productionMode String   @default("mvp") // mvp, startup, enterprise
+
+  // Status
+  status        String    @default("forging") // forging, ready, deployed
+  progress      Int       @default(0)
+
+  // Relationships
+  memories      ProjectMemory[]
+  decisions     Decision[]
+  features      Feature[]
+  codeFiles     CodeFile[]
+  versions      ProjectVersion[]
+  teamMembers   TeamMember[]
+  changeHistory ChangeHistory[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId])
+  @@index([slug])
+  @@index([status])
+}
+
+// Memory Cards - Editable project context with version history
+model ProjectMemory {
+  id            String    @id @default(cuid())
+  projectId     String
+  project       Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  category      String    // blueprint, tech_stack, business_rules, etc.
+  key           String    // Unique identifier within category
+  title         String
+  content       Json      // The actual memory data
+  reasoning     String?   // "Why was this decided?"
+
+  // Conflict detection
+  conflictsWith String[]  // IDs of conflicting memories
+
+  // Version history
+  version       Int       @default(1)
+  previousVersionId String?
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([projectId, category, key])
+  @@index([projectId, category])
+}
+
+// ═══════════════════════════════════════════════════════════
+// DECISION-FIRST ARCHITECTURE (Core System #3)
+// ═══════════════════════════════════════════════════════════
+
+model Decision {
+  id            String    @id @default(cuid())
+  projectId     String
+  project       Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  category      String    // data_architecture, authentication, authorization, payment, etc.
+  title         String
+  description   String
+
+  // Options
+  recommendedOption String
+  selectedOption    String?
+  alternatives      Json    // Array of alternative options with trade-offs
+
+  // Impact Analysis
+  costImplications        String?
+  performanceImplications String?
+  securityImplications    String?
+  learningCurve          String?
+  futureFlexibility      String?
+
+  // Status
+  status        String    @default("pending") // pending, approved, rejected
+  approvedAt    DateTime?
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([projectId, category])
+  @@index([status])
+}
+
+// ═══════════════════════════════════════════════════════════
+// FEATURE & CODE MANAGEMENT
+// ═══════════════════════════════════════════════════════════
+
+model Feature {
+  id            String    @id @default(cuid())
+  projectId     String
+  project       Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  name          String
+  description   String?
+  category      String    // authentication, payments, user_management, etc.
+
+  // Requirements
+  requirements  Json?     // Detailed requirements extracted from wizard
+
+  // Completeness Validation
+  functionalComplete Boolean @default(false)
+  securityComplete   Boolean @default(false)
+  accessibilityComplete Boolean @default(false)
+  performanceComplete   Boolean @default(false)
+  completenessScore  Int     @default(0)
+
+  // Testing
+  testCoverage  Float     @default(0)
+  testsPassing  Boolean   @default(false)
+
+  status        String    @default("planning") // planning, building, testing, complete
+  priority      Int       @default(0)
+
+  // Relationships
+  codeFiles     CodeFile[]
+  tests         Test[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([projectId, status])
+  @@index([priority])
+}
+
+model CodeFile {
+  id            String    @id @default(cuid())
+  projectId     String
+  project       Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  featureId     String?
+  feature       Feature?  @relation(fields: [featureId], references: [id])
+
+  path          String    // Relative path in project
+  content       String    @db.Text
+  language      String    // typescript, tsx, css, etc.
+
+  // AI explanations
+  purpose       String?   // What does this file do?
+  patterns      Json?     // Patterns used and why
+
+  // Metrics
+  linesOfCode   Int       @default(0)
+  complexity    Int       @default(0)
+
+  // Version tracking
+  version       Int       @default(1)
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@unique([projectId, path])
+  @@index([projectId, featureId])
+}
+
+model Test {
+  id            String    @id @default(cuid())
+  featureId     String
+  feature       Feature   @relation(fields: [featureId], references: [id], onDelete: Cascade)
+
+  name          String
+  type          String    // unit, integration, e2e
+  content       String    @db.Text
+
+  // Status
+  passing       Boolean   @default(false)
+  lastRun       DateTime?
+  errorMessage  String?   @db.Text
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([featureId, type])
+}
+
+// ═══════════════════════════════════════════════════════════
+// TIME-TRAVEL DEBUGGING & VERSION HISTORY (Core System #9)
+// ═══════════════════════════════════════════════════════════
+
+model ProjectVersion {
+  id            String    @id @default(cuid())
+  projectId     String
+  project       Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  versionNumber Int
+  name          String?
+  description   String?
+
+  // Snapshot of entire project state
+  snapshot      Json      @db.JsonB
+
+  // Screenshots
+  screenshotUrl String?
+
+  createdAt     DateTime  @default(now())
+
+  @@unique([projectId, versionNumber])
+  @@index([projectId, createdAt])
+}
+
+model ChangeHistory {
+  id            String    @id @default(cuid())
+  projectId     String
+  project       Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  changeType    String    // code_edit, decision_made, feature_added, etc.
+  description   String
+  reasoning     String?   // "Why I made this change"
+
+  // Before/After
+  before        Json?     @db.JsonB
+  after         Json?     @db.JsonB
+
+  // Affected entities
+  affectedFiles String[]
+  affectedComponents String[]
+
+  // Impact
+  impactAnalysis Json?    // What else was affected
+  breakingChanges Boolean @default(false)
+
+  // Attribution
+  author        String    // "AI" or user ID
+
+  // Rollback
+  rolledBack    Boolean   @default(false)
+  rolledBackAt  DateTime?
+
+  createdAt     DateTime  @default(now())
+
+  @@index([projectId, createdAt])
+  @@index([changeType])
+}
+
+// ═══════════════════════════════════════════════════════════
+// COLLABORATION & TEAM (Core System #15)
+// ═══════════════════════════════════════════════════════════
+
+model Team {
+  id            String    @id @default(cuid())
+  name          String
+  slug          String    @unique
+
+  plan          String    @default("builder") // builder, master, enterprise
+
+  members       TeamMember[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([slug])
+}
+
+model TeamMember {
+  id            String    @id @default(cuid())
+  teamId        String
+  team          Team      @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId     String?
+  project       Project?  @relation(fields: [projectId], references: [id])
+
+  role          String    // owner, admin, editor, viewer
+
+  createdAt     DateTime  @default(now())
+
+  @@unique([teamId, userId])
+  @@index([userId])
+  @@index([projectId])
+}
+
+// ═══════════════════════════════════════════════════════════
+// AI INTERACTION TRACKING
+// ═══════════════════════════════════════════════════════════
+
+model AIInteraction {
+  id            String    @id @default(cuid())
+  userId        String
+  projectId     String?
+
+  type          String    // requirement_gathering, code_generation, refactoring, etc.
+  prompt        String    @db.Text
+  response      String    @db.Text
+
+  // Token usage
+  tokensUsed    Int
+  model         String    // sonnet-4.5, haiku-4.5, etc.
+
+  // Cost tracking
+  estimatedCost Float
+
+  createdAt     DateTime  @default(now())
+
+  @@index([userId, createdAt])
+  @@index([projectId])
+}
+
+// ═══════════════════════════════════════════════════════════
+// IMPORT SYSTEM (Core System #17)
+// ═══════════════════════════════════════════════════════════
+
+model ImportedProject {
+  id            String    @id @default(cuid())
+  userId        String
+
+  source        String    // v0, lovable, bolt, replit, github
+  sourceUrl     String?
+
+  // Audit Results
+  auditReport   Json      @db.JsonB
+  securityIssues Int      @default(0)
+  performanceIssues Int   @default(0)
+  qualityScore  Float     @default(0)
+
+  // Migration
+  migratedProjectId String?
+  migrationStatus   String  @default("pending") // pending, in_progress, complete
+
+  createdAt     DateTime  @default(now())
+
+  @@index([userId])
+  @@index([source])
+}
+
+// ═══════════════════════════════════════════════════════════
+// ANALYTICS & METRICS
+// ═══════════════════════════════════════════════════════════
+
+model ProjectMetrics {
+  id            String    @id @default(cuid())
+  projectId     String    @unique
+
+  // Code Metrics
+  totalFiles    Int       @default(0)
+  totalLines    Int       @default(0)
+  bundleSize    Int       @default(0) // in KB
+
+  // Performance
+  lighthouseScore Float?
+  coreWebVitals   Json?
+
+  // Security
+  vulnerabilities Int     @default(0)
+  securityScore   Float?
+
+  // Testing
+  testCoverage    Float   @default(0)
+  testsCount      Int     @default(0)
+  testsPassing    Int     @default(0)
+
+  updatedAt     DateTime  @updatedAt
+}
