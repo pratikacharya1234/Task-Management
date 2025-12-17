@@ -154,7 +154,7 @@ export function OnboardingWizard() {
                     onClick={handleNext}
                     className="btn-forge px-8 py-3"
                   >
-                    {isLastStep ? '🔥 Start Building' : 'Next →'}
+                    {isLastStep ? 'Start Building' : 'Next →'}
                   </button>
                 </div>
               </motion.div>

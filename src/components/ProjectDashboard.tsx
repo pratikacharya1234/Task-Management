@@ -48,21 +48,21 @@ export function ProjectDashboard() {
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard
-          icon="🔨"
+          icon="PROJ"
           label="Active Projects"
           value="3"
           change="+2 this month"
           changeType="positive"
         />
         <StatCard
-          icon="⚡"
+          icon="DEPLOY"
           label="Total Deployments"
           value="12"
           change="+4 this week"
           changeType="positive"
         />
         <StatCard
-          icon="🎯"
+          icon="RATE"
           label="Completion Rate"
           value="94%"
           change="+12% vs last month"
@@ -104,8 +104,10 @@ export function ProjectDashboard() {
             whileHover={{ scale: 1.02 }}
             className="card-anvil p-8 flex flex-col items-center justify-center gap-4 border-2 border-dashed border-surface-500 hover:border-secondary cursor-pointer min-h-[280px]"
           >
-            <div className="w-16 h-16 rounded-full bg-surface-700 flex items-center justify-center text-3xl">
-              ➕
+            <div className="w-16 h-16 rounded-full bg-surface-700 flex items-center justify-center">
+              <svg className="w-8 h-8 text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
             </div>
             <h4 className="font-heading text-xl font-semibold text-text-secondary">
               Start New Project
@@ -141,8 +143,8 @@ function StatCard({
       className="card-anvil p-6"
     >
       <div className="flex items-start justify-between mb-4">
-        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-secondary shadow-ember flex items-center justify-center text-2xl">
-          {icon}
+        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-secondary shadow-ember flex items-center justify-center">
+          <span className="text-xs font-bold text-text-primary">{icon}</span>
         </div>
         <span className={`text-sm font-mono ${changeType === 'positive' ? 'text-success' : 'text-error'}`}>
           {change}
@@ -169,21 +171,21 @@ function ProjectCard({
     forging: {
       label: 'Forging',
       color: 'warning',
-      icon: '🔥',
+      icon: 'WIP',
       bgClass: 'bg-warning',
       textClass: 'text-background',
     },
     ready: {
       label: 'Ready',
       color: 'info',
-      icon: '✨',
+      icon: 'RDY',
       bgClass: 'bg-info',
       textClass: 'text-text-primary',
     },
     deployed: {
       label: 'Deployed',
       color: 'success',
-      icon: '🚀',
+      icon: 'LIVE',
       bgClass: 'bg-success',
       textClass: 'text-text-primary',
     },
