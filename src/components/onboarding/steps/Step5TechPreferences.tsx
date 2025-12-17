@@ -4,24 +4,24 @@ import { motion } from 'framer-motion'
 import { useOnboardingStore } from '@/lib/stores/onboardingStore'
 
 const authProviders = [
-  { id: 'clerk', name: 'Clerk', icon: '🔐', recommended: true },
-  { id: 'authjs', name: 'Auth.js (NextAuth)', icon: '🔑', recommended: false },
-  { id: 'supabase', name: 'Supabase Auth', icon: '⚡', recommended: false },
-  { id: 'firebase', name: 'Firebase Auth', icon: '🔥', recommended: false },
+  { id: 'clerk', name: 'Clerk', icon: 'CLK', recommended: true },
+  { id: 'authjs', name: 'Auth.js (NextAuth)', icon: 'AUTH', recommended: false },
+  { id: 'supabase', name: 'Supabase Auth', icon: 'SUPA', recommended: false },
+  { id: 'firebase', name: 'Firebase Auth', icon: 'FIRE', recommended: false },
 ]
 
 const databases = [
-  { id: 'postgresql', name: 'PostgreSQL', icon: '🐘', recommended: true },
-  { id: 'mysql', name: 'MySQL', icon: '🐬', recommended: false },
-  { id: 'mongodb', name: 'MongoDB', icon: '🍃', recommended: false },
-  { id: 'supabase', name: 'Supabase', icon: '⚡', recommended: true },
+  { id: 'postgresql', name: 'PostgreSQL', icon: 'PG', recommended: true },
+  { id: 'mysql', name: 'MySQL', icon: 'SQL', recommended: false },
+  { id: 'mongodb', name: 'MongoDB', icon: 'MNGO', recommended: false },
+  { id: 'supabase', name: 'Supabase', icon: 'SUPA', recommended: true },
 ]
 
 const deployments = [
-  { id: 'vercel', name: 'Vercel', icon: '▲', recommended: true },
-  { id: 'netlify', name: 'Netlify', icon: '🌐', recommended: false },
-  { id: 'railway', name: 'Railway', icon: '🚂', recommended: false },
-  { id: 'fly', name: 'Fly.io', icon: '✈️', recommended: false },
+  { id: 'vercel', name: 'Vercel', icon: 'VCL', recommended: true },
+  { id: 'netlify', name: 'Netlify', icon: 'NET', recommended: false },
+  { id: 'railway', name: 'Railway', icon: 'RWY', recommended: false },
+  { id: 'fly', name: 'Fly.io', icon: 'FLY', recommended: false },
 ]
 
 export function Step5TechPreferences() {
@@ -31,7 +31,9 @@ export function Step5TechPreferences() {
     <div className="space-y-8">
       <div className="panel-metal bg-info/10 border-l-4 border-info">
         <div className="flex items-start gap-3">
-          <div className="text-2xl">💡</div>
+          <div className="w-8 h-8 flex items-center justify-center bg-info/20 rounded">
+            <span className="text-sm font-bold text-info">!</span>
+          </div>
           <div>
             <h4 className="font-heading font-bold text-info mb-2">
               These are preferences, not requirements
@@ -68,7 +70,9 @@ export function Step5TechPreferences() {
                     ✓
                   </div>
                 )}
-                <div className="text-3xl mb-2">{provider.icon}</div>
+                <div className="w-12 h-12 mx-auto mb-2 flex items-center justify-center bg-gradient-to-br from-primary to-secondary rounded-lg">
+                  <span className="text-xs font-bold text-text-primary">{provider.icon}</span>
+                </div>
                 <h4 className="font-heading font-semibold text-sm text-text-primary">
                   {provider.name}
                 </h4>
@@ -101,7 +105,9 @@ export function Step5TechPreferences() {
                   ✓
                 </div>
               )}
-              <div className="text-3xl mb-2">{db.icon}</div>
+              <div className="w-12 h-12 mx-auto mb-2 flex items-center justify-center bg-gradient-to-br from-primary to-secondary rounded-lg">
+                <span className="text-xs font-bold text-text-primary">{db.icon}</span>
+              </div>
               <h4 className="font-heading font-semibold text-sm text-text-primary">
                 {db.name}
               </h4>
@@ -133,7 +139,9 @@ export function Step5TechPreferences() {
                   ✓
                 </div>
               )}
-              <div className="text-3xl mb-2">{platform.icon}</div>
+              <div className="w-12 h-12 mx-auto mb-2 flex items-center justify-center bg-gradient-to-br from-primary to-secondary rounded-lg">
+                <span className="text-xs font-bold text-text-primary">{platform.icon}</span>
+              </div>
               <h4 className="font-heading font-semibold text-sm text-text-primary">
                 {platform.name}
               </h4>
@@ -149,7 +157,7 @@ export function Step5TechPreferences() {
         className="panel-metal bg-secondary/10 border-l-4 border-secondary"
       >
         <h4 className="font-heading text-lg font-bold text-secondary mb-4">
-          🔥 Ready to Build
+          Ready to Build
         </h4>
         <div className="space-y-2 text-sm text-text-secondary">
           <p>
