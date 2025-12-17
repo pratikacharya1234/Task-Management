@@ -11,14 +11,14 @@ interface MemoryCardProps {
 }
 
 const categoryIcons: Record<string, string> = {
-  blueprint: '📐',
-  tech_stack: '⚙️',
-  business_rules: '📋',
-  compliance: '🔒',
-  security: '🛡️',
-  performance: '⚡',
-  design_system: '🎨',
-  api_contracts: '🔌',
+  blueprint: 'BLPR',
+  tech_stack: 'TECH',
+  business_rules: 'BIZR',
+  compliance: 'CMPL',
+  security: 'SECR',
+  performance: 'PERF',
+  design_system: 'DSGN',
+  api_contracts: 'API',
 }
 
 const categoryColors: Record<string, string> = {
@@ -36,7 +36,7 @@ export function MemoryCard({ memory, onEdit, onDelete }: MemoryCardProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [showActions, setShowActions] = useState(false)
 
-  const icon = categoryIcons[memory.category] || '📝'
+  const icon = categoryIcons[memory.category] || 'MEM'
   const gradient = categoryColors[memory.category] || 'from-surface to-surface-700'
 
   return (
@@ -57,7 +57,9 @@ export function MemoryCard({ memory, onEdit, onDelete }: MemoryCardProps) {
       <div className="p-6">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-start gap-3 flex-1">
-            <div className="text-3xl">{icon}</div>
+            <div className="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-primary to-secondary rounded-lg">
+              <span className="text-xs font-bold text-text-primary">{icon}</span>
+            </div>
             <div className="flex-1">
               <h4 className="font-heading text-lg font-bold text-text-primary mb-1">
                 {memory.title}
@@ -134,7 +136,7 @@ export function MemoryCard({ memory, onEdit, onDelete }: MemoryCardProps) {
               {memory.reasoning && (
                 <div className="mb-4 p-4 bg-surface-700 rounded-md border-l-4 border-warning">
                   <h5 className="text-xs font-mono font-bold text-warning mb-2">
-                    💡 WHY THIS WAS DECIDED:
+                    WHY THIS WAS DECIDED:
                   </h5>
                   <p className="text-sm text-text-secondary">{memory.reasoning}</p>
                 </div>
