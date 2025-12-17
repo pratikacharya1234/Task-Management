@@ -11,14 +11,14 @@ interface MemoryEditorProps {
 }
 
 const categories = [
-  { id: 'blueprint', name: 'Blueprint', icon: '📐' },
-  { id: 'tech_stack', name: 'Tech Stack', icon: '⚙️' },
-  { id: 'business_rules', name: 'Business Rules', icon: '📋' },
-  { id: 'compliance', name: 'Compliance', icon: '🔒' },
-  { id: 'security', name: 'Security', icon: '🛡️' },
-  { id: 'performance', name: 'Performance', icon: '⚡' },
-  { id: 'design_system', name: 'Design System', icon: '🎨' },
-  { id: 'api_contracts', name: 'API Contracts', icon: '🔌' },
+  { id: 'blueprint', name: 'Blueprint', icon: 'BLPR' },
+  { id: 'tech_stack', name: 'Tech Stack', icon: 'TECH' },
+  { id: 'business_rules', name: 'Business Rules', icon: 'BIZR' },
+  { id: 'compliance', name: 'Compliance', icon: 'CMPL' },
+  { id: 'security', name: 'Security', icon: 'SECR' },
+  { id: 'performance', name: 'Performance', icon: 'PERF' },
+  { id: 'design_system', name: 'Design System', icon: 'DSGN' },
+  { id: 'api_contracts', name: 'API Contracts', icon: 'API' },
 ]
 
 export function MemoryEditor({ isOpen, onClose, memory }: MemoryEditorProps) {
@@ -146,7 +146,7 @@ export function MemoryEditor({ isOpen, onClose, memory }: MemoryEditorProps) {
                             : 'bg-surface-700 text-text-secondary hover:bg-surface-600'
                         }`}
                       >
-                        <div className="text-2xl mb-1">{cat.icon}</div>
+                        <div className="text-sm mb-1 font-bold">{cat.icon}</div>
                         <div className="text-xs">{cat.name}</div>
                       </button>
                     ))}

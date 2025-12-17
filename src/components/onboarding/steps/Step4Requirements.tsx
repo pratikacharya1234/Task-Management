@@ -8,31 +8,31 @@ const requirements = [
     id: 'auth',
     key: 'requiresAuth',
     name: 'Authentication',
-    icon: '🔐',
+    icon: 'AUTH',
     description: 'User login, registration, and session management',
   },
   {
     id: 'payments',
     key: 'requiresPayments',
     name: 'Payments',
-    icon: '💳',
+    icon: 'PAY',
     description: 'Accept payments, subscriptions, or process transactions',
   },
   {
     id: 'realtime',
     key: 'requiresRealtime',
     name: 'Real-time Features',
-    icon: '⚡',
+    icon: 'LIVE',
     description: 'Live updates, chat, notifications, or collaborative editing',
   },
 ]
 
 const complianceOptions = [
-  { id: 'hipaa', name: 'HIPAA', icon: '🏥', description: 'Health data protection' },
-  { id: 'gdpr', name: 'GDPR', icon: '🇪🇺', description: 'EU data privacy' },
-  { id: 'soc2', name: 'SOC 2', icon: '🔒', description: 'Security & availability' },
-  { id: 'pci-dss', name: 'PCI-DSS', icon: '💳', description: 'Payment card security' },
-  { id: 'coppa', name: 'COPPA', icon: '👶', description: 'Children\'s privacy' },
+  { id: 'hipaa', name: 'HIPAA', icon: 'HIPAA', description: 'Health data protection' },
+  { id: 'gdpr', name: 'GDPR', icon: 'GDPR', description: 'EU data privacy' },
+  { id: 'soc2', name: 'SOC 2', icon: 'SOC2', description: 'Security & availability' },
+  { id: 'pci-dss', name: 'PCI-DSS', icon: 'PCI', description: 'Payment card security' },
+  { id: 'coppa', name: 'COPPA', icon: 'COPPA', description: 'Children\'s privacy' },
 ]
 
 export function Step4Requirements() {
@@ -77,7 +77,9 @@ export function Step4Requirements() {
                   : ''
               }`}
             >
-              <div className="text-4xl">{req.icon}</div>
+              <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-primary to-secondary rounded-lg">
+                <span className="text-xs font-bold text-text-primary">{req.icon}</span>
+              </div>
               <div className="flex-1">
                 <h4 className="font-heading text-lg font-bold text-text-primary mb-1">
                   {req.name}
@@ -131,7 +133,9 @@ export function Step4Requirements() {
                 }`}
               >
                 <div className="flex items-start gap-3">
-                  <div className="text-3xl">{option.icon}</div>
+                  <div className="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-warning/30 to-warning/10 rounded-lg">
+                    <span className="text-xs font-bold text-warning">{option.icon}</span>
+                  </div>
                   <div className="flex-1">
                     <h4 className="font-heading text-lg font-bold text-text-primary mb-1">
                       {option.name}
@@ -166,7 +170,9 @@ export function Step4Requirements() {
           className="panel-metal bg-warning/10 border-l-4 border-warning"
         >
           <div className="flex items-start gap-3">
-            <div className="text-2xl">⚠️</div>
+            <div className="w-8 h-8 flex items-center justify-center bg-warning/20 rounded">
+              <span className="text-lg font-bold text-warning">!</span>
+            </div>
             <div>
               <h4 className="font-heading font-bold text-warning mb-2">
                 Compliance Requirements Detected
