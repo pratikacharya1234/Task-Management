@@ -11,20 +11,20 @@ interface DecisionCardProps {
 }
 
 const categoryIcons: Record<string, string> = {
-  data_architecture: '🗃️',
-  authentication: '🔐',
-  authorization: '👥',
-  payment: '💳',
-  state_management: '📊',
-  design_system: '🎨',
-  deployment: '📦',
+  data_architecture: 'DATA',
+  authentication: 'AUTH',
+  authorization: 'TEAM',
+  payment: 'PAYMENT',
+  state_management: 'STATE',
+  design_system: 'DESIGN',
+  deployment: 'DEPLOY',
 }
 
 export function DecisionCard({ decision, onApprove, onReject }: DecisionCardProps) {
   const [isExpanded, setIsExpanded] = useState(decision.status === 'pending')
   const [selectedOption, setSelectedOption] = useState(decision.selectedOption || decision.recommendedOption)
 
-  const icon = categoryIcons[decision.category] || '⚙️'
+  const icon = categoryIcons[decision.category] || 'CONFIG'
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -60,7 +60,9 @@ export function DecisionCard({ decision, onApprove, onReject }: DecisionCardProp
       >
         <div className="flex items-start justify-between">
           <div className="flex items-start gap-3 flex-1">
-            <div className="text-4xl">{icon}</div>
+            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center flex-shrink-0">
+              <span className="text-xs font-bold text-text-primary">{icon}</span>
+            </div>
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
                 <h3 className="font-heading text-xl font-bold text-text-primary">
@@ -101,7 +103,7 @@ export function DecisionCard({ decision, onApprove, onReject }: DecisionCardProp
               {/* Recommended Option */}
               <div className="p-4 bg-success/10 border-l-4 border-success rounded">
                 <div className="flex items-start gap-2 mb-2">
-                  <span className="text-lg">✅</span>
+                  <span className="px-2 py-1 bg-success text-background text-xs font-bold rounded">REC</span>
                   <h4 className="font-heading font-bold text-success">
                     Recommended: {decision.recommendedOption}
                   </h4>
@@ -111,8 +113,9 @@ export function DecisionCard({ decision, onApprove, onReject }: DecisionCardProp
               {/* Alternatives */}
               {decision.alternatives && Array.isArray(decision.alternatives) && decision.alternatives.length > 0 && (
                 <div>
-                  <h4 className="font-heading font-bold text-text-primary mb-3">
-                    ⚖️ Alternative Options
+                  <h4 className="font-heading font-bold text-text-primary mb-3 flex items-center gap-2">
+                    <span className="px-2 py-1 bg-surface-600 text-text-primary text-xs font-bold rounded">ALT</span>
+                    Alternative Options
                   </h4>
                   <div className="space-y-3">
                     {decision.alternatives.map((alt: any, index: number) => (
@@ -158,7 +161,7 @@ export function DecisionCard({ decision, onApprove, onReject }: DecisionCardProp
                 {decision.costImplications && (
                   <div className="p-3 bg-surface-700 rounded-lg">
                     <div className="flex items-center gap-2 mb-1">
-                      <span>💰</span>
+                      <span className="px-2 py-1 bg-warning text-background text-xs font-bold rounded">COST</span>
                       <h5 className="font-heading font-bold text-sm text-text-primary">Cost</h5>
                     </div>
                     <p className="text-xs text-text-secondary">{decision.costImplications}</p>
@@ -167,7 +170,7 @@ export function DecisionCard({ decision, onApprove, onReject }: DecisionCardProp
                 {decision.performanceImplications && (
                   <div className="p-3 bg-surface-700 rounded-lg">
                     <div className="flex items-center gap-2 mb-1">
-                      <span>⚡</span>
+                      <span className="px-2 py-1 bg-secondary text-background text-xs font-bold rounded">PERF</span>
                       <h5 className="font-heading font-bold text-sm text-text-primary">Performance</h5>
                     </div>
                     <p className="text-xs text-text-secondary">{decision.performanceImplications}</p>
@@ -176,7 +179,7 @@ export function DecisionCard({ decision, onApprove, onReject }: DecisionCardProp
                 {decision.securityImplications && (
                   <div className="p-3 bg-surface-700 rounded-lg">
                     <div className="flex items-center gap-2 mb-1">
-                      <span>🔒</span>
+                      <span className="px-2 py-1 bg-error text-background text-xs font-bold rounded">SEC</span>
                       <h5 className="font-heading font-bold text-sm text-text-primary">Security</h5>
                     </div>
                     <p className="text-xs text-text-secondary">{decision.securityImplications}</p>
@@ -185,7 +188,7 @@ export function DecisionCard({ decision, onApprove, onReject }: DecisionCardProp
                 {decision.learningCurve && (
                   <div className="p-3 bg-surface-700 rounded-lg">
                     <div className="flex items-center gap-2 mb-1">
-                      <span>🎓</span>
+                      <span className="px-2 py-1 bg-info text-background text-xs font-bold rounded">LEARN</span>
                       <h5 className="font-heading font-bold text-sm text-text-primary">Learning Curve</h5>
                     </div>
                     <p className="text-xs text-text-secondary">{decision.learningCurve}</p>
@@ -194,7 +197,7 @@ export function DecisionCard({ decision, onApprove, onReject }: DecisionCardProp
                 {decision.futureFlexibility && (
                   <div className="p-3 bg-surface-700 rounded-lg">
                     <div className="flex items-center gap-2 mb-1">
-                      <span>🔮</span>
+                      <span className="px-2 py-1 bg-success text-background text-xs font-bold rounded">FLEX</span>
                       <h5 className="font-heading font-bold text-sm text-text-primary">Future Flexibility</h5>
                     </div>
                     <p className="text-xs text-text-secondary">{decision.futureFlexibility}</p>
@@ -222,8 +225,9 @@ export function DecisionCard({ decision, onApprove, onReject }: DecisionCardProp
 
               {decision.status === 'approved' && (
                 <div className="p-4 bg-success/10 border-l-4 border-success rounded">
-                  <p className="text-sm text-success font-semibold">
-                    ✅ Approved: {decision.selectedOption}
+                  <p className="text-sm text-success font-semibold flex items-center gap-2">
+                    <span className="px-2 py-1 bg-success text-background text-xs font-bold rounded">DONE</span>
+                    Approved: {decision.selectedOption}
                   </p>
                 </div>
               )}

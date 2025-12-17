@@ -6,21 +6,21 @@ import { useProjectStore, Decision } from '@/lib/stores/projectStore'
 import { DecisionCard } from './DecisionCard'
 
 const categories = [
-  { id: 'all', name: 'All Decisions', icon: '⚙️' },
-  { id: 'data_architecture', name: 'Data Architecture', icon: '🗃️' },
-  { id: 'authentication', name: 'Authentication', icon: '🔐' },
-  { id: 'authorization', name: 'Authorization', icon: '👥' },
-  { id: 'payment', name: 'Payment', icon: '💳' },
-  { id: 'state_management', name: 'State Management', icon: '📊' },
-  { id: 'design_system', name: 'Design System', icon: '🎨' },
-  { id: 'deployment', name: 'Deployment', icon: '📦' },
+  { id: 'all', name: 'All Decisions', icon: 'CONFIG' },
+  { id: 'data_architecture', name: 'Data Architecture', icon: 'DATA' },
+  { id: 'authentication', name: 'Authentication', icon: 'AUTH' },
+  { id: 'authorization', name: 'Authorization', icon: 'TEAM' },
+  { id: 'payment', name: 'Payment', icon: 'PAYMENT' },
+  { id: 'state_management', name: 'State Management', icon: 'STATE' },
+  { id: 'design_system', name: 'Design System', icon: 'DESIGN' },
+  { id: 'deployment', name: 'Deployment', icon: 'DEPLOY' },
 ]
 
 const statusFilters = [
-  { id: 'all', name: 'All', icon: '📋' },
-  { id: 'pending', name: 'Pending', icon: '⏳' },
-  { id: 'approved', name: 'Approved', icon: '✅' },
-  { id: 'rejected', name: 'Rejected', icon: '❌' },
+  { id: 'all', name: 'All', icon: 'LIST' },
+  { id: 'pending', name: 'Pending', icon: 'WAIT' },
+  { id: 'approved', name: 'Approved', icon: 'YES' },
+  { id: 'rejected', name: 'Rejected', icon: 'NO' },
 ]
 
 export function DecisionFoundry() {
@@ -61,28 +61,36 @@ export function DecisionFoundry() {
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="card-anvil p-4">
-          <div className="text-2xl mb-2">⚙️</div>
+          <div className="w-10 h-10 rounded bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-2">
+            <span className="text-xs font-bold text-text-primary">CONFIG</span>
+          </div>
           <div className="font-heading text-2xl font-bold text-text-primary">
             {decisions.length}
           </div>
           <div className="text-xs text-text-secondary">Total Decisions</div>
         </div>
         <div className="card-anvil p-4">
-          <div className="text-2xl mb-2">⏳</div>
+          <div className="w-10 h-10 rounded bg-warning flex items-center justify-center mb-2">
+            <span className="text-xs font-bold text-background">WAIT</span>
+          </div>
           <div className="font-heading text-2xl font-bold text-warning">
             {pendingCount}
           </div>
           <div className="text-xs text-text-secondary">Pending Review</div>
         </div>
         <div className="card-anvil p-4">
-          <div className="text-2xl mb-2">✅</div>
+          <div className="w-10 h-10 rounded bg-success flex items-center justify-center mb-2">
+            <span className="text-xs font-bold text-background">YES</span>
+          </div>
           <div className="font-heading text-2xl font-bold text-success">
             {approvedCount}
           </div>
           <div className="text-xs text-text-secondary">Approved</div>
         </div>
         <div className="card-anvil p-4">
-          <div className="text-2xl mb-2">❌</div>
+          <div className="w-10 h-10 rounded bg-error flex items-center justify-center mb-2">
+            <span className="text-xs font-bold text-background">NO</span>
+          </div>
           <div className="font-heading text-2xl font-bold text-error">
             {rejectedCount}
           </div>
@@ -104,13 +112,13 @@ export function DecisionFoundry() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`px-4 py-2 rounded-lg font-heading font-semibold whitespace-nowrap transition-all ${
+                className={`px-4 py-2 rounded-lg font-heading font-semibold whitespace-nowrap transition-all flex items-center gap-2 ${
                   selectedCategory === category.id
                     ? 'bg-primary text-text-primary shadow-forge'
                     : 'bg-surface text-text-secondary hover:bg-surface-600'
                 }`}
               >
-                <span className="mr-2">{category.icon}</span>
+                <span className="px-2 py-0.5 bg-surface-700 rounded text-xs font-bold">{category.icon}</span>
                 {category.name}
               </motion.button>
             ))}
@@ -129,13 +137,13 @@ export function DecisionFoundry() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedStatus(status.id)}
-                className={`px-4 py-2 rounded-lg font-heading font-semibold transition-all ${
+                className={`px-4 py-2 rounded-lg font-heading font-semibold transition-all flex items-center gap-2 ${
                   selectedStatus === status.id
                     ? 'bg-secondary text-background shadow-forge'
                     : 'bg-surface text-text-secondary hover:bg-surface-600'
                 }`}
               >
-                <span className="mr-2">{status.icon}</span>
+                <span className="px-2 py-0.5 bg-surface-700 rounded text-xs font-bold">{status.icon}</span>
                 {status.name}
               </motion.button>
             ))}
@@ -151,7 +159,9 @@ export function DecisionFoundry() {
           className="panel-metal bg-warning/10 border-l-4 border-warning"
         >
           <div className="flex items-start gap-3">
-            <div className="text-2xl">⚠️</div>
+            <div className="w-10 h-10 rounded bg-warning flex items-center justify-center flex-shrink-0">
+              <span className="text-xs font-bold text-background">ALERT</span>
+            </div>
             <div>
               <h4 className="font-heading font-bold text-warning mb-2">
                 {pendingCount} Decision{pendingCount !== 1 ? 's' : ''} Awaiting Approval
@@ -168,7 +178,9 @@ export function DecisionFoundry() {
       {/* Decision Cards */}
       {filteredDecisions.length === 0 ? (
         <div className="text-center py-20 card-anvil">
-          <div className="text-6xl mb-4">🔍</div>
+          <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-4">
+            <span className="text-2xl font-bold text-text-primary">SEARCH</span>
+          </div>
           <h3 className="font-heading text-xl font-bold text-text-primary mb-2">
             No decisions found
           </h3>
@@ -200,7 +212,9 @@ export function DecisionFoundry() {
           animate={{ opacity: 1, scale: 1 }}
           className="panel-metal bg-success/10 border-l-4 border-success text-center py-8"
         >
-          <div className="text-5xl mb-4">🎉</div>
+          <div className="w-16 h-16 rounded-lg bg-success flex items-center justify-center mx-auto mb-4">
+            <span className="text-2xl font-bold text-background">PARTY</span>
+          </div>
           <h3 className="font-heading text-2xl font-bold text-success mb-4">
             All Decisions Approved!
           </h3>
@@ -208,7 +222,8 @@ export function DecisionFoundry() {
             Your architectural blueprint is complete. Ready to generate production-ready code?
           </p>
           <button className="btn-forge px-8 py-4 text-lg">
-            🔥 Start Code Generation
+            <span className="px-2 py-1 bg-secondary text-background rounded-md text-sm font-bold mr-2">FIRE</span>
+            Start Code Generation
           </button>
         </motion.div>
       )}

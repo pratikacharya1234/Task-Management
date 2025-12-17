@@ -76,7 +76,8 @@ export default function HomePage() {
             >
               <button className="btn-forge forge-glow text-lg group">
                 <span className="relative z-10 flex items-center gap-3">
-                  🔥 Start Building
+                  <span className="px-2 py-1 bg-secondary text-background rounded text-sm font-bold">FIRE</span>
+                  Start Building
                   <svg
                     className="w-5 h-5 group-hover:translate-x-2 transition-transform duration-300"
                     fill="none"
@@ -89,7 +90,10 @@ export default function HomePage() {
               </button>
 
               <button className="btn-forge bg-secondary hover:bg-secondary/90 text-lg">
-                <span className="relative z-10">📦 Import from v0/Lovable</span>
+                <span className="relative z-10 flex items-center gap-2">
+                  <span className="px-2 py-1 bg-primary text-text-primary rounded text-sm font-bold">PKG</span>
+                  Import from v0/Lovable
+                </span>
               </button>
             </motion.div>
           </motion.div>
@@ -172,7 +176,9 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
       whileHover={{ y: -8 }}
       className="card-anvil p-8 cursor-pointer"
     >
-      <div className="text-5xl mb-4">{feature.icon}</div>
+      <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-4">
+        <span className="text-xs font-bold text-text-primary">{feature.icon}</span>
+      </div>
       <h3 className="font-heading text-2xl font-bold text-text-primary mb-4">
         {feature.title}
       </h3>
@@ -207,8 +213,18 @@ function ComparisonTable() {
                 className="border-b border-surface-600 hover:bg-surface-700/30 transition-colors"
               >
                 <td className="py-4 px-6 font-sans font-medium text-text-primary">{item.feature}</td>
-                <td className="py-4 px-6 text-center text-2xl">{item.others}</td>
-                <td className="py-4 px-6 text-center text-2xl">{item.forge}</td>
+                <td className="py-4 px-6 text-center">
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+                    item.others === 'NO' ? 'bg-error text-background' : 'bg-warning text-background'
+                  }`}>
+                    {item.others}
+                  </span>
+                </td>
+                <td className="py-4 px-6 text-center">
+                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-success text-background">
+                    {item.forge}
+                  </span>
+                </td>
               </motion.tr>
             ))}
           </tbody>
@@ -234,47 +250,47 @@ interface Comparison {
 // Data
 const features: Feature[] = [
   {
-    icon: '🧠',
+    icon: 'MIND',
     title: 'Thinks Like Your Technical Co-Founder',
     description: 'Before writing code, FORGE asks: What\'s your business model? Who are your users? What\'s your compliance need? Then builds accordingly.',
   },
   {
-    icon: '🎯',
+    icon: 'TARGET',
     title: 'Production-Ready by Default',
     description: 'Every feature includes: error handling, loading states, input validation, security measures, accessibility, mobile optimization, and tests.',
   },
   {
-    icon: '⚙️',
+    icon: 'CONFIG',
     title: 'Decisions, Then Code',
     description: 'Choose your auth provider, state management, database, deployment—with pros/cons for each. Code comes after decisions are locked.',
   },
   {
-    icon: '🔒',
+    icon: 'SEC',
     title: 'No Lock-In, Ever',
     description: 'Export clean, standard code anytime. No proprietary APIs. Can be maintained without FORGE.',
   },
   {
-    icon: '🎓',
+    icon: 'LEARN',
     title: 'Learn While You Build',
     description: 'AI explains every architectural decision. Hover any code to understand why it exists. Graduate from the tool.',
   },
   {
-    icon: '🔥',
+    icon: 'FIRE',
     title: 'Full-Stack Intelligence',
     description: 'Not just UI. Generate complete systems: API endpoints, database schema, authentication, authorization, and deployment.',
   },
 ]
 
 const comparisons: Comparison[] = [
-  { feature: 'Authentication System', others: '❌', forge: '✅' },
-  { feature: 'Input Validation', others: '❌', forge: '✅' },
-  { feature: 'Error Handling', others: '❌', forge: '✅' },
-  { feature: 'Mobile Optimization', others: '❌', forge: '✅' },
-  { feature: 'Security Measures', others: '❌', forge: '✅' },
-  { feature: 'Performance Optimization', others: '❌', forge: '✅' },
-  { feature: 'Database Schema', others: '❌', forge: '✅' },
-  { feature: 'API Endpoints', others: '❌', forge: '✅' },
-  { feature: 'Testing Coverage', others: '❌', forge: '✅' },
-  { feature: 'Accessibility (WCAG)', others: '❌', forge: '✅' },
-  { feature: 'Clean Code Export', others: '⚠️', forge: '✅' },
+  { feature: 'Authentication System', others: 'NO', forge: 'YES' },
+  { feature: 'Input Validation', others: 'NO', forge: 'YES' },
+  { feature: 'Error Handling', others: 'NO', forge: 'YES' },
+  { feature: 'Mobile Optimization', others: 'NO', forge: 'YES' },
+  { feature: 'Security Measures', others: 'NO', forge: 'YES' },
+  { feature: 'Performance Optimization', others: 'NO', forge: 'YES' },
+  { feature: 'Database Schema', others: 'NO', forge: 'YES' },
+  { feature: 'API Endpoints', others: 'NO', forge: 'YES' },
+  { feature: 'Testing Coverage', others: 'NO', forge: 'YES' },
+  { feature: 'Accessibility (WCAG)', others: 'NO', forge: 'YES' },
+  { feature: 'Clean Code Export', others: 'PARTIAL', forge: 'YES' },
 ]
